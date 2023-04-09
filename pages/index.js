@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
@@ -8,6 +10,34 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
 export default function Home() {
+
+  const [isNavbarTransparent, setNavbarTransparent] = useState(false);
+
+  useEffect(() => {
+    // Add event listener for scroll event
+    window.addEventListener('scroll', handleScroll);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    // Get the current scroll position
+    const scrollPosition = window.scrollY || window.pageYOffset;
+
+    // Set the threshold scroll position for making the navbar transparent
+    const threshold = 100;
+
+    // Update state to determine if navbar should be transparent or not
+    if (scrollPosition > threshold) {
+      setNavbarTransparent(true);
+    } else {
+      setNavbarTransparent(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -22,9 +52,8 @@ export default function Home() {
       </Head>
 
       <nav>
-        <Navbar bg="light" expand="lg">
-          <Container>
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar bg="light" expand="lg"  fixed="top">
+            <Navbar.Brand href="#home">Visit FL</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
@@ -43,12 +72,11 @@ export default function Home() {
                 </NavDropdown>
               </Nav>
             </Navbar.Collapse>
-          </Container>
+
         </Navbar>
       </nav>
-      <main>
-
-        <h1>Hellooo</h1>
+      <main className={isNavbarTransparent ? 'navbar-transparent' : 'navbar-opaque'}>
+        <h1>Visit Florida</h1>
       </main>
 
       <style jsx>{`
@@ -88,6 +116,14 @@ export default function Home() {
         }
         nav {
           width: 100%;
+        }
+        .navbar-transparent {
+          background-color: blue;
+          transition: 1.3s;
+        }
+        .navbar-opaque {
+          background-color: none;
+          transition: 0.5s;
         }
       `}</style>
 
