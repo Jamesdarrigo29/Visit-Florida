@@ -1,1 +1,1 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).# Visit-Florida
+Welcome! You've made it to LifeInFlorida's git repository!
